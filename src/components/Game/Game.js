@@ -12,11 +12,9 @@ function serveCards(cards) {
   ];
 
 } 
-var SERVED_CARDS = serveCards(TrumpCards);
+const SERVED_CARDS = serveCards(TrumpCards);
 
 class Game extends Component {
-
-
   render() {
     // TODO: Make multiplayer?
     // var numPlayers = 2;
@@ -37,7 +35,7 @@ class Game extends Component {
 class PlayersHand extends Component {
   render() {
     if (this.props.isPlayersTurn) {
-      return <UpCard />
+      return <UpCard card={this.props.playersCards[0]} />
     }
     else {
       return <DownCard />
@@ -48,13 +46,41 @@ class PlayersHand extends Component {
 
 class UpCard extends Component {
   render() {
-    return <div>UPCARD</div>
+    const trumpRatings = this.props.card.ratings
+    var trumpRatingRows = []
+    for (var category in trumpRatings) {
+      trumpRatingRows.push( <TrumpRatingRow category={category} rating={trumpRatings[category]} /> );
+    }
+
+    return (
+      <div class="trump-card">
+        <h3 class="trump-card-header">{this.props.card.name}</h3>
+        <img src={this.props.card.picture} />
+        <div class="trump-card-ratings">
+          <ol>
+            {trumpRatingRows}
+          </ol>
+        </div>
+      </div>
+    )
+  }
+}
+class TrumpRatingRow extends Component {
+
+
+  render() {
+    return (
+      <li>
+        <span>{this.props.category}: </span>
+        <span>{this.props.rating}</span>
+      </li>
+    )
   }
 }
 
 class DownCard extends Component {
   render() {
-    return <div>DOWNCARD</div>
+    return <div class="trump-downcard"></div>
   }
 }
 
