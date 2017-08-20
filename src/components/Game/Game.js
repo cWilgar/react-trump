@@ -13,7 +13,6 @@ function serveCards(cards) {
 
 } 
 var SERVED_CARDS = serveCards(TrumpCards);
-debugger;
 
 class Game extends Component {
 
@@ -27,12 +26,35 @@ class Game extends Component {
 
     return (
       <div className="Game">
-      {
-      // 	<PlayersHand player="1" isPlayersTurn="{1}" playersCards="this.props.servedCards[0]"/>
-      // 	<PlayersHand player="2" isPlayersTurn="{0}" playersCards="this.props.servedCards[1]"/>
-      }
+      	<PlayersHand player="1" isPlayersTurn={1} playersCards={SERVED_CARDS[0]}/>
+      	<PlayersHand player="2" isPlayersTurn={0} playersCards={SERVED_CARDS[1]}/>
       </div>
     );
+  }
+}
+
+
+class PlayersHand extends Component {
+  render() {
+    if (this.props.isPlayersTurn) {
+      return <UpCard />
+    }
+    else {
+      return <DownCard />
+    }
+  }
+}
+
+
+class UpCard extends Component {
+  render() {
+    return <div>UPCARD</div>
+  }
+}
+
+class DownCard extends Component {
+  render() {
+    return <div>DOWNCARD</div>
   }
 }
 
