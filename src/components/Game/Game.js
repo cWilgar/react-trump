@@ -53,10 +53,10 @@ class UpCard extends Component {
     }
 
     return (
-      <div class="trump-card">
-        <h3 class="trump-card-header">{this.props.card.name}</h3>
+      <div className="trump-card">
+        <h3 className="trump-card-header">{this.props.card.name}</h3>
         <img src={this.props.card.picture} />
-        <div class="trump-card-ratings">
+        <div className="trump-card-ratings">
           <ol>
             {trumpRatingRows}
           </ol>
@@ -80,7 +80,7 @@ class TrumpRatingRow extends Component {
 
 class DownCard extends Component {
   render() {
-    return <div class="trump-downcard"></div>
+    return <div className="trump-downcard"></div>
   }
 }
 
