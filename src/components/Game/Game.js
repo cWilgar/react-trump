@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import TrumpCards from './trumpCards.json';
 import shuffle from 'shuffle-array';
 
+const SERVED_CARDS = serveCards(TrumpCards);
 function serveCards(cards) {
   const shuffledCards = shuffle(cards, { 'copy': true });
   const numToServe = Math.floor(cards.length/2);
-
   return [
     shuffledCards.slice(0,numToServe),
     shuffledCards.slice(numToServe)
   ];
 
 } 
-const SERVED_CARDS = serveCards(TrumpCards);
 
 class Game extends Component {
   render() {
@@ -31,7 +30,6 @@ class Game extends Component {
   }
 }
 
-
 class PlayersHand extends Component {
   render() {
     if (this.props.isPlayersTurn) {
@@ -42,7 +40,6 @@ class PlayersHand extends Component {
     }
   }
 }
-
 
 class UpCard extends Component {
   render() {
@@ -66,8 +63,6 @@ class UpCard extends Component {
   }
 }
 class TrumpRatingRow extends Component {
-
-
   render() {
     return (
       <li>
