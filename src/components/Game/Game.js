@@ -24,32 +24,6 @@ class Game extends Component {
     }
   };
 
-  handleCategorySelection(category) {
-    const cards = this.state.cards.slice();
-
-    const roundWinner = calculateRoundWinner(category, cards);
-    // if it's a draw, return:
-    if (roundWinner === false) {
-      alert('That was a draw! Pick a different category' );
-      return
-    }
-    //hand cards to round winner:
-    let winnersNewCards = [];
-    for (let i = 0; i < cards.length; i++) {
-      if (i !== roundWinner) {
-        const loosingHand = cards[i];
-        winnersNewCards.push(loosingHand.shift());
-      }
-    }
-    cards[roundWinner] = cards[roundWinner].concat(winnersNewCards);
-
-    // update state
-    this.setState({
-      cards: cards,
-      currPlayer: roundWinner
-    });
-  }
-
   render() {
     // check if game is over
     const gameOver = checkIfGameOver(this.state.currPlayer, this.state.cards);
@@ -105,6 +79,32 @@ class Game extends Component {
     return trumpRatingRows;
   }
 
+  handleCategorySelection(category) {
+    const cards = this.state.cards.slice();
+
+    const roundWinner = calculateRoundWinner(category, cards);
+    // if it's a draw, return:
+    if (roundWinner === false) {
+      alert('That was a draw! Pick a different category' );
+      return
+    }
+    //hand cards to round winner:
+    let winnersNewCards = [];
+    for (let i = 0; i < cards.length; i++) {
+      if (i !== roundWinner) {
+        const loosingHand = cards[i];
+        winnersNewCards.push(loosingHand.shift());
+      }
+    }
+    cards[roundWinner] = cards[roundWinner].concat(winnersNewCards);
+
+    // update state
+    this.setState({
+      cards: cards,
+      currPlayer: roundWinner
+    });
+  }
+  
 }
 
 class UpCard extends Component {
