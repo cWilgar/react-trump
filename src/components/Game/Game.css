@@ -1,0 +1,7 @@
+.players-hand {
+	float: left;
+	width: 50%;
+}
+.players-hand img {
+	height: 20vh;
+}
