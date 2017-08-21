@@ -32,7 +32,6 @@ class Game extends Component {
       return <h1>Player {this.state.currPlayer+1} is the winner! Refresh the page to start again.</h1>
     }
     // otherwise render game
-    const firstPlayersTurn = (this.state.currPlayer === 0);
     return (
       <div className="Game">
         <h1>
