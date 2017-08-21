@@ -4,6 +4,7 @@ import './Game.css';
 import TrumpCards from './trumpCards.json';
 import shuffle from 'shuffle-array';
 
+const CHEAT = true;
 const SERVED_CARDS = serveCards(TrumpCards);
 
 function serveCards(cards) {
@@ -41,30 +42,46 @@ class Game extends Component {
         <div className="players-hand players-hand--first-player">
           <h2>Player 1:</h2>
           <p> Cards: { this.state.cards[0].length }</p>
-          { firstPlayersTurn? this.renderUpCard(0) : ( <DownCard /> ) }
+          {this.renderTrumpCard(0)}
         </div>
 
         <div className="players-hand players-hand--second-player">
           <h2>Player 2:</h2>
           <p> Cards: { this.state.cards[1].length }</p>
-          { firstPlayersTurn? ( <DownCard /> ) : this.renderUpCard(1) }
+          {this.renderTrumpCard(1)}
         </div>
 
       </div>
     );
   }
 
-  renderUpCard(i) {
+  renderTrumpCard(i) {
     const card = this.state.cards[i][0];
-    return (
-      <UpCard
-        card={card}
-        trumpRatings={this.renderTrumpRatings(card.ratings)}
-      />
-    )
+    if (this.state.currPlayer === i) {
+      return (
+        <UpCard
+          card={card}
+          trumpRatings={this.renderTrumpRatings(card.ratings)}
+        />
+      )
+    }
+    else if (CHEAT) {
+      return (
+        <UpCard
+          card={card}
+          trumpRatings={this.renderTrumpRatings(card.ratings, false)}
+          cheating={true}
+        />
+      )
+    }
+    else {
+      return (
+        <DownCard/>
+      )
+    }
   }
 
-  renderTrumpRatings(ratings) {
+  renderTrumpRatings(ratings, clickable = true) {
     var trumpRatingRows = [];
     for (var category in ratings) {
       trumpRatingRows.push( 
@@ -72,7 +89,9 @@ class Game extends Component {
           key={category}
           category={category}
           rating={ratings[category]} 
-          handleClick={this.handleCategorySelection.bind(this, category)}
+          handleClick={
+            clickable ? this.handleCategorySelection.bind(this, category) : ''
+          }
         />
       );
     }
@@ -110,7 +129,7 @@ class Game extends Component {
 class UpCard extends Component {
   render() {
     return (
-      <div className="trump-card">
+      <div className={"trump-card" + (this.props.cheating ? " trump-card--cheat":"")}>
         <h3 className="trump-card-header">{this.props.card.name}</h3>
         <img src={this.props.card.picture} alt={this.props.card.name}/>
         <div className="trump-card-ratings">

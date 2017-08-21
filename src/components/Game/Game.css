@@ -5,3 +5,6 @@
 .players-hand img {
 	height: 20vh;
 }
+.trump-card:not(.trump-card--cheat) a {
+	cursor: pointer;
+}
