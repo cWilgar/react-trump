@@ -23,34 +23,39 @@ class Game extends Component {
   };
 
   handleCategorySelection(category) {
-    //--checkForRoundWinner:
-    // best-player = 0;
-    // for each player i
-    //   if category rank < player-1's rank
-    //   bestplayer = i
-    // endfor
 
-    const cards = this.state.cards;
+    const cards = this.state.cards.slice();
 
+    //find best card in the round
     let roundWinner = 0;
-    for (let i = 0; i < cards.length; i++) {
-      debugger;
+    let draw = false;
+    for (let i = 1; i < cards.length; i++) {
+      const currCard = cards[i][0];
+      const currWinnerCard = cards[roundWinner][0];
+      if (currCard.ratings[category] > currWinnerCard.ratings[category]) {
+        roundWinner = i;
+      }
     }
 
-    //--handCardsToRoundWinner:
-    // const cards = this.state.cards.slice();
-    // let cardsForTheTaking = []
-    // for each hand in cards i
-    //   if i !== best-player
-    //   cardsForTheTaking.push(hand.shift());
-    // endfor
-    // cards[best-player].push(cardsForTheTaking);
+    //hand cards to round winner:
+    let cardsForTheTaking = [];
+    for (let i = 0; i < cards.length; i++) {
+      const currHand = cards[i];
+      if (i !== roundWinner) {
+        cardsForTheTaking.push(currHand.shift());
+      }
+    }
+    cards[roundWinner] = cards[roundWinner].concat(cardsForTheTaking);
 
-    //--
-    //setState cards > cards
-    //setState currPlayer = currPlayer ? 0 : 1;
+    // update state
+    this.setState({
+      cards: cards,
+      currPlayer: (this.state.currPlayer ? 0 : 1)
+    });
 
     //--checkForGameWinner:
+    // if (cards[roundWinner].length )
+
   }
 
   renderUpCard(i) {
@@ -116,7 +121,7 @@ class Game extends Component {
         <TrumpRatingRow 
           category={category} 
           rating={ratings[category]} 
-          handleClick={() => this.handleCategorySelection(category)}
+          handleClick={this.handleCategorySelection.bind(this, category)}
         /> 
       );
     }
