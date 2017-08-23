@@ -1,31 +1,53 @@
 import React, { Component } from 'react';
+import crown from './crown.svg';
 import './Game.css';
 
-import TrumpCards from './trumpCards.json';
 import shuffle from 'shuffle-array';
 
-const CHEAT = true;
-const SERVED_CARDS = serveCards(TrumpCards);
-
-function serveCards(cards) {
-  const shuffledCards = shuffle(cards, { 'copy': true });
-  const numToServe = Math.floor(cards.length/2);
-  return [
-    shuffledCards.slice(0,numToServe),
-    shuffledCards.slice(numToServe)
-  ];
-}
+const WP_URI = process.env.REACT_APP_WP_URI;
+const CHEAT = true; // useful for debugging (rather than crawling through scope objects in debugger)
 
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: SERVED_CARDS, //the players current card is the one at index 0 of each hand
+      cards: null, //the players current card is the one at index 0 of each hand
       currPlayer: 0
     }
   };
 
+  componentDidMount() {
+    const request = WP_URI + '/wp-json/wp-trumps/v1/cards/';
+
+    fetch(request).then(function(response) {
+      var contentType = response.headers.get("content-type");
+      if(contentType && contentType.includes("application/json")) {
+        return response.json();
+      }
+      throw new TypeError("Response not json, but " + contentType);
+    })
+    .then((json) => { this.serveCards(json) })
+    .catch(function(error) { console.log(error); });
+  };
+
+  serveCards(cards) {
+    const shuffledCards = shuffle(cards, { 'copy': true });
+    const numToServe = Math.floor(cards.length/2);
+    const serve = [
+      shuffledCards.slice(0,numToServe),
+      shuffledCards.slice(numToServe)
+    ];
+    this.setState({
+      cards: serve,
+    });
+
+  }
+
   render() {
+    // check if the cards have been loaded
+    if (!this.state.cards) {
+      return <p>One moment please...</p>;
+    }
     // check if game is over
     const gameOver = checkIfGameOver(this.state.currPlayer, this.state.cards);
     if (gameOver) {
@@ -127,10 +149,27 @@ class Game extends Component {
 
 class UpCard extends Component {
   render() {
+
+    const picture = this.props.card.picture;
+    const img = ( picture ? 
+        <img 
+          src={picture.url}
+          srcSet={
+            picture.sizes.medium +" "+picture.sizes['medium-width']+","+
+            picture.sizes.large +" "+picture.sizes['large-width']+","
+          }
+          alt={picture.title}
+        />
+    :
+        <img src={crown} alt={picture.title} />
+    )
+
     return (
       <div className={"trump-card" + (this.props.cheating ? " trump-card--cheat":"")}>
         <h3 className="trump-card-header">{this.props.card.name}</h3>
-        <img src={this.props.card.picture} alt={this.props.card.name}/>
+        <div className="trump-card-img-wrapper">
+          {img}
+        </div>
         <div className="trump-card-ratings">
           <ol>
             {this.props.trumpRatings}
