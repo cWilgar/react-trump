@@ -1,10 +1,40 @@
+
 .players-hand {
 	float: left;
-	width: 50%;
+  margin: 20px 0;
+	width: 100%;
 }
-.players-hand img {
-	height: 20vh;
+@media (min-width: 600px) {
+  .players-hand {
+    width: 50%;
+  }
 }
-.trump-card:not(.trump-card--cheat) a {
-	cursor: pointer;
+
+.trump-card {
+  width: 300px;
+  max-width: 100%;
+  margin: auto;
+  background-color: #222;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.trump-card img {
+  padding: 20px;
+  max-height: 150px;
+}
+.trump-card ol {
+  list-style: none;
+  padding: 0;
+}
+.trump-card a {
+  cursor: pointer;
+  user-select: none;
+}
+.trump-card--cheat a {
+  color: grey;
+  cursor: default;
 }
