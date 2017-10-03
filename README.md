@@ -15,7 +15,7 @@ This project is coupled with the [wp-trumps](https://github.com/cWilgar/wp-trump
 - If you have a local copy of wordpress you want to work from, copy .env into .env.local and update the URI.
 - See [Available Scripts](README.react-app.md#available-scripts) in the react readme to run the build.
 
-## If I had more time I would...
+## Still TODO
 
 ### FRONT END
 
@@ -36,4 +36,4 @@ This project is coupled with the [wp-trumps](https://github.com/cWilgar/wp-trump
 
 ### WORDPRESS
 
-* Work out how to allow editors to create new cards types - e.g. with a different set of categories, and then be able to add new cards of the type. Not sure if this is possible in hindsight.
+* Work out how to allow editors to create new cards types - e.g. with a different set of categories, and then be able to add new cards of this type. Not sure if this is possible in hindsight.
