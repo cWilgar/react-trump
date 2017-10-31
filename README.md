@@ -1,7 +1,7 @@
 
-# REACT-TRUMP
+# REACT-TRUMPS
 
-A digital version or Top-Trumps written in react, which pulls data from wordpress.
+A digital version of Top-Trumps written in react, which pulls data from wordpress.
 This project was bootstrapped with [Create React App](README.react-app.md).
 
 I am hosting this on github pages https://cwilgar.github.io/react-trumps/
@@ -26,7 +26,6 @@ This project is coupled with the [wp-trumps](https://github.com/cWilgar/wp-trump
 * Style it properly! (Including for mobile)
     * Integrate sass
     * add some nice transitions/animations
-* LAZY LOAD IMAGES
 
 * Handle a draw as per top-trumps instructions
 
